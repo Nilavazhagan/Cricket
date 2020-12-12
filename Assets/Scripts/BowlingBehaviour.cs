@@ -16,10 +16,20 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
 
     public Transform BallSpawn;
 
+    public string helpHeader;
+    [TextArea]
+    public string helpContentMovement, helpContentAccuracy, helpContentSpeed;
+
+    string[] helpContents;
     public InputsReceived OnInputsReceived { get; set; }
 
     BoxCollider boundaryCollider;
     ListenMode listenMode = ListenMode.LINE_LENGTH;
+
+    void Awake()
+    {
+        helpContents = new string[] { helpContentMovement, helpContentAccuracy, helpContentSpeed };
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +59,7 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && listenMode != ListenMode.NONE)
         {
             listenMode++;
+            UpdateHelpContent();
         }
 
         if (listenMode == ListenMode.NONE)
@@ -93,10 +104,18 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
     public void ListenToInput()
     {
         listenMode = ListenMode.LINE_LENGTH;
+        UpdateHelpContent();
     }
 
     public void Silence() {
         listenMode = ListenMode.OFF;
+    }
+
+    private void UpdateHelpContent() { 
+        if((int)listenMode < helpContents.Length)
+        {
+            HelpManager.Instance.UpdateHelpContent(helpHeader, helpContents[(int)listenMode]);
+        }
     }
 
     enum ListenMode

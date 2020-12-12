@@ -12,6 +12,10 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
     [HideInInspector]
     public bool listenToInput = false;
 
+    public string helpHeader;
+    [TextArea]
+    public string helpContent;
+
     public InputsReceived OnInputsReceived { get; set; }
 
     BoxCollider batsmanCollider;
@@ -90,6 +94,7 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
     public void ListenToInput()
     {
         listenToInput = true;
+        HelpManager.Instance.UpdateHelpContent(helpHeader, helpContent);
     }
 
     public void Silence()
