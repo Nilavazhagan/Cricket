@@ -684,7 +684,7 @@ GameObject:
   - component: {fileID: 1443906969}
   - component: {fileID: 1443906968}
   m_Layer: 0
-  m_Name: PitchBounds
+  m_Name: Pitch Bounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -827,7 +827,7 @@ GameObject:
   - component: {fileID: 1480616635}
   - component: {fileID: 1480616636}
   m_Layer: 0
-  m_Name: target-icon-28_0
+  m_Name: Marker Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
