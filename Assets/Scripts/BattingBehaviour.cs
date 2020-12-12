@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattingBehavior : MonoBehaviour
+public class BattingBehaviour : MonoBehaviour
 {
     public float minX = -1f, maxX = 1f;
     public float movementSpeed = 5f;

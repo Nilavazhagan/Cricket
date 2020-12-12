@@ -347,10 +347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab7e480d961bbde45a965b88a52b2f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_color1: {r: 0, g: 1, b: 0.6075425, a: 1}
-  m_color2: {r: 1, g: 0.5261963, b: 0, a: 1}
-  m_angle: 180
-  m_ignoreRatio: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1084,6 +1080,7 @@ GameObject:
   - component: {fileID: 1322884773}
   - component: {fileID: 1322884772}
   - component: {fileID: 1322884771}
+  - component: {fileID: 1322884775}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -1183,6 +1180,30 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1322884769}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1322884775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322884769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9c44f8747a4067429e700116fb3985c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  markerBounds: {fileID: 1443906966}
+  marker: {fileID: 1638179339}
+  movementSpeed: 25
+  minScale: 1
+  maxScale: 3
+  scaleSpeed: 3
+  speedSlider: {fileID: 1933773231}
+  sliderSpeed: 1
+  minSpeed: 1
+  maxSpeed: 5
+  Ball: {fileID: 1322884769}
+  BallSpawn: {fileID: 1547268721}
 --- !u!1 &1359022370
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,7 +1519,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1638179340}
-  - component: {fileID: 1638179341}
   m_Layer: 0
   m_Name: Pitch Marker
   m_TagString: Untagged
@@ -1521,29 +1541,6 @@ Transform:
   m_Father: {fileID: 1443906967}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1638179341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638179339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9c44f8747a4067429e700116fb3985c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  markerBounds: {fileID: 1443906966}
-  movementSpeed: 25
-  minScale: 1
-  maxScale: 3
-  scaleSpeed: 3
-  speedSlider: {fileID: 1933773231}
-  sliderSpeed: 1
-  minSpeed: 1
-  maxSpeed: 5
-  Ball: {fileID: 1322884769}
-  BallSpawn: {fileID: 1547268721}
 --- !u!1 &1713536918
 GameObject:
   m_ObjectHideFlags: 0
