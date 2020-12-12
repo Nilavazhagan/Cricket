@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BowlingBehaviour : MonoBehaviour
+public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
 {
 
     public GameObject markerBounds, marker;
@@ -15,6 +15,8 @@ public class BowlingBehaviour : MonoBehaviour
     public float sliderSpeed, minSpeed, maxSpeed;
 
     public Transform BallSpawn;
+
+    public InputsReceived OnInputsReceived { get; set; }
 
     BoxCollider boundaryCollider;
     ListenMode listenMode = ListenMode.LINE_LENGTH;
@@ -48,35 +50,34 @@ public class BowlingBehaviour : MonoBehaviour
         {
             listenMode++;
         }
-    }
 
-    private void FixedUpdate()
-    {
         if (listenMode == ListenMode.NONE)
         {
-            BattingBehaviour BB = GameObject.FindObjectOfType(typeof(BattingBehaviour)) as BattingBehaviour;
-            BB.listenToInput = true;
-
             Vector3 pitchPoint = marker.transform.position;
             float accuracy = marker.transform.localScale.x - minScale;                 //Lower the value, Higher the accuracy
-            float ballSpeed = speedSlider.value * (maxSpeed - minSpeed) + minSpeed;
+            ballSpeed = speedSlider.value * (maxSpeed - minSpeed) + minSpeed;
 
             Vector2 randomPointInCircle = Random.insideUnitCircle * accuracy;
             pitchPoint.x += randomPointInCircle.x;
             pitchPoint.z += randomPointInCircle.y;
+            ballThrowDirection = (pitchPoint - transform.position).normalized;
 
-            Vector3 direction = (pitchPoint - transform.position).normalized;
-
-            Rigidbody rb = GetComponent<Rigidbody>();
-            rb.useGravity = true;
-            rb.AddForce(direction * ballSpeed, ForceMode.Impulse);
             listenMode = ListenMode.OFF;
-
-            Invoke("Reset", 3.0f);
+            OnInputsReceived?.Invoke();
         }
     }
 
-    void Reset()
+
+    Vector3 ballThrowDirection;
+    float ballSpeed;
+    public void Play()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.useGravity = true;
+        rb.AddForce(ballThrowDirection * ballSpeed, ForceMode.Impulse);
+    }
+
+    public void Reset()
     {
         listenMode = ListenMode.LINE_LENGTH;
         marker.transform.localScale = new Vector3((minScale + maxScale) / 2, 1, (minScale + maxScale) / 2);
@@ -87,8 +88,15 @@ public class BowlingBehaviour : MonoBehaviour
         GetComponent<Rigidbody>().useGravity = false;
         transform.position = BallSpawn.transform.position;
 
-        BattingBehaviour BB = GameObject.FindObjectOfType(typeof(BattingBehaviour)) as BattingBehaviour;
-        BB.Reset();
+    }
+
+    public void ListenToInput()
+    {
+        listenMode = ListenMode.LINE_LENGTH;
+    }
+
+    public void Silence() {
+        listenMode = ListenMode.OFF;
     }
 
     enum ListenMode
