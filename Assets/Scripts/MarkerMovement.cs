@@ -55,6 +55,9 @@ public class MarkerMovement : MonoBehaviour
     {
         if (listenMode == ListenMode.NONE)
         {
+            BattingBehavior BB = GameObject.FindObjectOfType(typeof(BattingBehavior)) as BattingBehavior;
+            BB.listenToInput = true;
+
             Vector3 pitchPoint = transform.position;
             float accuracy = transform.localScale.x - minScale;                 //Lower the value, Higher the accuracy
             float ballSpeed = speedSlider.value * (maxSpeed - minSpeed) + minSpeed;
@@ -84,6 +87,9 @@ public class MarkerMovement : MonoBehaviour
         Ball.GetComponent<Rigidbody>().Sleep();
         Ball.GetComponent<Rigidbody>().useGravity = false;
         Ball.transform.position = BallSpawn.transform.position;
+
+        BattingBehavior BB = GameObject.FindObjectOfType(typeof(BattingBehavior)) as BattingBehavior;
+        BB.Reset();
     }
 
     enum ListenMode
