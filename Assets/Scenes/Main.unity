@@ -193,11 +193,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.5
-  m_Text: 'Tap <b>Space</b> to set speed
+  m_Text: 'Use <b>Arrow Keys</b> to move marker
 
-
-    <size=14><color=#ffffff99>Crossing
-    the line, will result in a No Ball </color></size>'
+    Tap <b>Space</b> to confirm
+    position'
 --- !u!222 &1592768
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -859,7 +858,7 @@ RectTransform:
   m_GameObject: {fileID: 878282387}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children: []
   m_Father: {fileID: 1354329842}
   m_RootOrder: 0
