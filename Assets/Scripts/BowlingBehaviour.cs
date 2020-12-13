@@ -65,12 +65,12 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
         if (listenMode == ListenMode.NONE)
         {
             Vector3 pitchPoint = marker.transform.position;
-            float accuracy = marker.transform.localScale.x - minScale;                 //Lower the value, Higher the accuracy
+            //float accuracy = marker.transform.localScale.x - minScale;                 //Lower the value, Higher the accuracy
             ballSpeed = speedSlider.value * (maxSpeed - minSpeed) + minSpeed;
 
-            Vector2 randomPointInCircle = Random.insideUnitCircle * accuracy;
-            pitchPoint.x += randomPointInCircle.x;
-            pitchPoint.z += randomPointInCircle.y;
+            //Vector2 randomPointInCircle = Random.insideUnitCircle * accuracy;
+            pitchPoint.x = Random.Range(marker.GetComponentInChildren<SphereCollider>().bounds.min.x, marker.GetComponentInChildren<SphereCollider>().bounds.max.x);
+            pitchPoint.z = Random.Range(marker.GetComponentInChildren<SphereCollider>().bounds.min.z, marker.GetComponentInChildren<SphereCollider>().bounds.max.z);
             ballThrowDirection = (pitchPoint - transform.position).normalized;
 
             listenMode = ListenMode.OFF;
