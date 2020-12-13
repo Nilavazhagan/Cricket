@@ -24,17 +24,16 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
     public InputsReceived OnInputsReceived { get; set; }
 
     BoxCollider boundaryCollider;
+    Rigidbody rigidBody;
+    SphereCollider accuracyCollider;
     ListenMode listenMode = ListenMode.LINE_LENGTH;
 
     void Awake()
     {
         helpContents = new string[] { helpContentMovement, helpContentAccuracy, helpContentSpeed };
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
         boundaryCollider = markerBounds.GetComponent<BoxCollider>();
-        Reset();
+        rigidBody = GetComponent<Rigidbody>();
+        accuracyCollider = marker.GetComponentInChildren<SphereCollider>();
     }
 
     // Update is called once per frame
@@ -65,12 +64,13 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
         if (listenMode == ListenMode.NONE)
         {
             Vector3 pitchPoint = marker.transform.position;
-            //float accuracy = marker.transform.localScale.x - minScale;                 //Lower the value, Higher the accuracy
             ballSpeed = speedSlider.value * (maxSpeed - minSpeed) + minSpeed;
 
-            //Vector2 randomPointInCircle = Random.insideUnitCircle * accuracy;
-            pitchPoint.x = Random.Range(marker.GetComponentInChildren<SphereCollider>().bounds.min.x, marker.GetComponentInChildren<SphereCollider>().bounds.max.x);
-            pitchPoint.z = Random.Range(marker.GetComponentInChildren<SphereCollider>().bounds.min.z, marker.GetComponentInChildren<SphereCollider>().bounds.max.z);
+            Vector3 maxBounds = accuracyCollider.bounds.max;
+            Vector3 minBounds = accuracyCollider.bounds.min;
+
+            pitchPoint.x = Random.Range(minBounds.x, maxBounds.x);
+            pitchPoint.z = Random.Range(minBounds.z, maxBounds.z);
             ballThrowDirection = (pitchPoint - transform.position).normalized;
 
             listenMode = ListenMode.OFF;
@@ -83,9 +83,8 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
     float ballSpeed;
     public void Play()
     {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        rb.useGravity = true;
-        rb.AddForce(ballThrowDirection * ballSpeed, ForceMode.Impulse);
+        rigidBody.useGravity = true;
+        rigidBody.AddForce(ballThrowDirection * ballSpeed, ForceMode.Impulse);
     }
 
     public void Reset()
@@ -95,8 +94,8 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
         marker.transform.localPosition = Vector3.zero;
         speedSlider.value = 0;
 
-        GetComponent<Rigidbody>().Sleep();
-        GetComponent<Rigidbody>().useGravity = false;
+        rigidBody.Sleep();
+        rigidBody.useGravity = false;
         transform.position = BallSpawn.transform.position;
 
     }

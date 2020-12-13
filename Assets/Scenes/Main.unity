@@ -333,7 +333,7 @@ MonoBehaviour:
   minX: -1
   maxX: 1
   movementSpeed: 10
-  Ball: {fileID: 1322884769}
+  Ball: {fileID: 1322884771}
   hitPower: 5
   listenToInput: 0
   helpHeader: Batting Mode
@@ -1572,7 +1572,7 @@ GameObject:
   - component: {fileID: 1322884775}
   m_Layer: 0
   m_Name: Ball
-  m_TagString: Ball
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

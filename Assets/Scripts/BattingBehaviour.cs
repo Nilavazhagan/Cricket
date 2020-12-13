@@ -6,7 +6,7 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
 {
     public float minX = -1f, maxX = 1f;
     public float movementSpeed = 5f;
-    public GameObject Ball;
+    public Rigidbody Ball;
     public float hitPower = 5f;
 
     [HideInInspector]
@@ -51,9 +51,6 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
                     z = Input.GetKey(KeyCode.UpArrow) ? -0.5f : (Input.GetKey(KeyCode.DownArrow) ? -1 : 0)
                 };
                 OnInputsReceived?.Invoke();
-                //Ball.GetComponent<Rigidbody>().AddForce(input * hitPower, ForceMode.Impulse);
-                //HitDirection hitDir = GetHitDirection(input);
-
                 listenToInput = false;
             }
         }
@@ -70,9 +67,9 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
     {
         if (isPlaying)
         {
-            if (other.CompareTag("Ball"))
+            if(other.gameObject == Ball.gameObject)
             {
-                other.GetComponent<Rigidbody>().AddForce(hitDirection * hitPower, ForceMode.Impulse);
+                Ball.AddForce(hitDirection * hitPower, ForceMode.Impulse);
             }
         }
     }
