@@ -1614,7 +1614,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1322884769}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 83043792a06f5374984e70878b1b4443, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1913,8 +1913,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 8.705732, y: 1, z: 9.695846}
-  m_Center: {x: 0.12071747, y: 0, z: -0.15207675}
+  m_Size: {x: 8.705732, y: 1, z: 13.249263}
+  m_Center: {x: 0.12071764, y: 0, z: -1.9287807}
 --- !u!4 &1468077620 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8176759719779254468, guid: c43fdc4f299b18647987c30c8a3e3d01, type: 3}
