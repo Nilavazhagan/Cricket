@@ -57,4 +57,9 @@ public class GameManager : MonoBehaviour
         bowlingBehaviour.ListenToInput();
         battingBehaviour.Silence();
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
