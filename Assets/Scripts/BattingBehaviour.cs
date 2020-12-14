@@ -44,12 +44,46 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
         {
             if (AreArrowKeysPressed() /*&& batsmanCollider.bounds.Contains(Ball.transform.position)*/)
             {
-                hitDirection = new Vector3
+                hitDirection = new Vector3(0,0,0);
+
+                if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                 {
-                    x = Input.GetKey(KeyCode.RightArrow) ? 1 : (Input.GetKey(KeyCode.LeftArrow) ? -1 : 0),
-                    y = (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) ? 0.5f : 0,
-                    z = Input.GetKey(KeyCode.UpArrow) ? -0.5f : (Input.GetKey(KeyCode.DownArrow) ? -1 : 0)
-                };
+                    hitDirection.y = 0.5f;
+                }
+
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    hitDirection.x = 1;
+                }else if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    hitDirection.x = -1;
+                }
+
+                if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    hitDirection.z = -1;
+                }else if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    if (Mathf.Approximately(hitDirection.y,0) && Mathf.Approximately(hitDirection.x,0))
+                    {
+                        hitDirection.z = -0.1f;
+                    }
+                    else { 
+                        if(Mathf.Approximately(hitDirection.x, 0))             //LOFTED Backward shot like uppercut
+                        {
+                            hitDirection.z = 1f;
+                            hitDirection.x = -0.4f;
+                        }else if(Mathf.Approximately(hitDirection.y,0))
+                        {
+                            hitDirection.z = 1f;
+                        }
+                        else
+                        {
+                            hitDirection.z = 1f;
+                        }
+                    } 
+                }
+
                 OnInputsReceived?.Invoke();
                 listenToInput = false;
             }
@@ -69,6 +103,7 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
         {
             if(other.gameObject == Ball.gameObject)
             {
+                Ball.Sleep();
                 Ball.AddForce(hitDirection * hitPower, ForceMode.Impulse);
             }
         }
