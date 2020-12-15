@@ -115,7 +115,7 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
                             }
                         }
                     }
-                }else if(touch.phase == TouchPhase.Ended)
+                }else if(touch.phase == TouchPhase.Ended && !EventSystem.current.IsPointerOverGameObject(touch.fingerId))
                 {
                     listenMode++;
                     UpdateHelpContent();
@@ -162,7 +162,7 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
                 }
 
             }
-            else if (Input.GetMouseButtonUp(0) && movingMarker)
+            else if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 listenMode++;
                 UpdateHelpContent();
