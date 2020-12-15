@@ -42,45 +42,6 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
     // Update is called once per frame
     void Update()
     {
-#if UNITY_STANDALONE
-        if (listenMode == ListenMode.LINE_LENGTH) { 
-            Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            Vector3 newPos = marker.transform.position + (move * movementSpeed * Time.deltaTime);
-            if (boundaryCollider.bounds.Contains(newPos))
-            {
-                marker.transform.position = newPos;
-            }
-        }else if (listenMode == ListenMode.ACCURACY)
-        {
-            float deltaScale = Mathf.PingPong(Time.time * scaleSpeed, maxScale - minScale);
-            marker.transform.localScale = new Vector3(minScale + deltaScale, 1, minScale + deltaScale);
-        }else if (listenMode == ListenMode.SPEED)
-        {
-            speedSlider.value = Mathf.PingPong(Time.time * sliderSpeed, 1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && listenMode != ListenMode.NONE)
-        {
-            listenMode++;
-            UpdateHelpContent();
-        }
-
-        if (listenMode == ListenMode.NONE)
-        {
-            Vector3 pitchPoint = marker.transform.position;
-            ballSpeed = speedSlider.value * (maxSpeed - minSpeed) + minSpeed;
-
-            Vector3 maxBounds = accuracyCollider.bounds.max;
-            Vector3 minBounds = accuracyCollider.bounds.min;
-
-            pitchPoint.x = Random.Range(minBounds.x, maxBounds.x);
-            pitchPoint.z = Random.Range(minBounds.z, maxBounds.z);
-            ballThrowDirection = (pitchPoint - transform.position).normalized;
-
-            listenMode = ListenMode.OFF;
-            OnInputsReceived?.Invoke();
-        }
-#elif UNITY_ANDROID
 #if !UNITY_EDITOR
         if(Input.touchCount > 0)
         {
@@ -204,7 +165,6 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
             listenMode = ListenMode.OFF;
             OnInputsReceived?.Invoke();
         }
-#endif
     }
 
 

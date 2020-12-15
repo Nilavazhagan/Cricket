@@ -23,78 +23,12 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
 
     public InputsReceived OnInputsReceived { get; set; }
 
-    BoxCollider batsmanCollider;
-    // Start is called before the first frame update
-    void Start()
-    {
-        batsmanCollider = GetComponent<BoxCollider>();
-    }
-
     // Update is called once per frame
     void Update()
     {
         if (!listenToInput)
             return;
-#if UNITY_STANDALONE
-        if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) && !AreArrowKeysPressed())
-        {
-            Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
-            Vector3 newPos = transform.position + (move * movementSpeed * Time.deltaTime);
-            if (newPos.x > maxX) newPos.x = maxX;
-            if (newPos.x < minX) newPos.x = minX;
-            transform.position = newPos;
-        }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (AreArrowKeysPressed() /*&& batsmanCollider.bounds.Contains(Ball.transform.position)*/)
-            {
-                hitDirection = new Vector3(0,0,0);
-
-                if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-                {
-                    hitDirection.y = 0.5f;
-                }
-
-                if (Input.GetKey(KeyCode.RightArrow))
-                {
-                    hitDirection.x = 1;
-                }else if (Input.GetKey(KeyCode.LeftArrow))
-                {
-                    hitDirection.x = -1;
-                }
-
-                if (Input.GetKey(KeyCode.DownArrow))
-                {
-                    hitDirection.z = -1;
-                }else if (Input.GetKey(KeyCode.UpArrow))
-                {
-                    if (Mathf.Approximately(hitDirection.y,0) && Mathf.Approximately(hitDirection.x,0))
-                    {
-                        hitDirection.z = -0.1f;
-                    }
-                    else { 
-                        if(Mathf.Approximately(hitDirection.x, 0))             //LOFTED Backward shot like uppercut
-                        {
-                            hitDirection.z = 1f;
-                            hitDirection.x = -0.4f;
-                        }else if(Mathf.Approximately(hitDirection.y,0))
-                        {
-                            hitDirection.z = 1f;
-                        }
-                        else
-                        {
-                            hitDirection.z = 1f;
-                        }
-                    } 
-                }
-
-                OnInputsReceived?.Invoke();
-                listenToInput = false;
-            }
-        }
-
-#elif UNITY_ANDROID
         if (batsmanMoveDir != null)
         {
             Vector3 newPos = transform.position + ((Vector3)batsmanMoveDir * movementSpeed * Time.deltaTime);
@@ -136,23 +70,8 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
                 else if (swipeLength > minMaxSwipeLength.y)
                     swipeLength = minMaxSwipeLength.y;
 
-                float ratio = (swipeLength - minMaxSwipeLength.x) / (minMaxSwipeLength.y - minMaxSwipeLength.x);
-                hitPower = (minMaxPower.y - minMaxPower.x) * ratio + minMaxPower.x;
-
-                Debug.Log(hitPower);
-
-                /*if(deltaVector.normalized.y < 0)
-                {
-                    if((hitDirection.x > -0.4f && hitDirection.x < 0.4f) && (deltaVector.normalized.y > -0.5 || !isLofted))
-                    {
-                        hitDirection.z = -deltaVector.normalized.y;
-                    }
-                    else
-                    {
-                        hitDirection.z = deltaVector.normalized.y;
-                        hitDirection.x = -0.4f;
-                    }
-                }*/
+                    float ratio = (swipeLength - minMaxSwipeLength.x) / (minMaxSwipeLength.y - minMaxSwipeLength.x);
+                    hitPower = (minMaxPower.y - minMaxPower.x) * ratio + minMaxPower.x;
 
                     hitDirection.z = deltaVector.normalized.y;
 
@@ -164,7 +83,7 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
 #if !UNITY_EDITOR
     }
 #endif
-#endif
+
     }
 
     Vector3 swipeStart;
