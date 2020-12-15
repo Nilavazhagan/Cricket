@@ -101,11 +101,19 @@ public class BowlingBehaviour : MonoBehaviour, ICricketBehaviour
                     }
                 }else if(touch.phase == TouchPhase.Moved && movingMarker)
                 {
-                    Vector3 newPos = Camera.main.ScreenToWorldPoint(touch.position);
-                    newPos.y = 0;
-                    if (boundaryCollider.bounds.Contains(newPos))
+                    Ray ray = Camera.main.ScreenPointToRay(touch.position);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit))
                     {
-                        marker.transform.position = newPos;
+                        if (hit.collider == boundaryCollider)
+                        {
+                            Vector3 newPos = hit.point;
+                            newPos.y = 0;
+                            if (boundaryCollider.bounds.Contains(newPos))
+                            {
+                                marker.transform.position = newPos;
+                            }
+                        }
                     }
                 }else if(touch.phase == TouchPhase.Ended)
                 {
