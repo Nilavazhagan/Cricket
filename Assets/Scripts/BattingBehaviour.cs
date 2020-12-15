@@ -9,9 +9,10 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
     public float minX = -1f, maxX = 1f;
     public float movementSpeed = 5f;
     public Rigidbody Ball;
-    public float hitPower = 5f;
     public Toggle loftToggle;
     public GameObject batsmanInteractionPanel;
+
+    public Vector2 minMaxPower, minMaxSwipeLength;
 
     [HideInInspector]
     public bool listenToInput = false;
@@ -123,11 +124,22 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
                 Vector3 swipeEnd = Input.mousePosition;
 #endif
             Vector3 deltaVector = swipeEnd - swipeStart;
-                if(deltaVector.magnitude > 1)       //Some threshold
+                if(deltaVector.magnitude > 25)       //Some threshold
                 {
                     hitDirection = new Vector3();
                     hitDirection.x = deltaVector.normalized.x;
                     hitDirection.y = isLofted ? 0.5f : 0;
+
+                float swipeLength = deltaVector.magnitude;
+                if (swipeLength < minMaxSwipeLength.x)
+                    swipeLength = minMaxSwipeLength.x;
+                else if (swipeLength > minMaxSwipeLength.y)
+                    swipeLength = minMaxSwipeLength.y;
+
+                float ratio = (swipeLength - minMaxSwipeLength.x) / (minMaxSwipeLength.y - minMaxSwipeLength.x);
+                hitPower = (minMaxPower.y - minMaxPower.x) * ratio + minMaxPower.x;
+
+                Debug.Log(hitPower);
 
                 /*if(deltaVector.normalized.y < 0)
                 {
@@ -142,7 +154,7 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
                     }
                 }*/
 
-                hitDirection.z = deltaVector.normalized.y;
+                    hitDirection.z = deltaVector.normalized.y;
 
                     OnInputsReceived?.Invoke();
                     listenToInput = false;
@@ -182,6 +194,7 @@ public class BattingBehaviour : MonoBehaviour, ICricketBehaviour
 
     Vector3 hitDirection;
     bool isPlaying = false;
+    float hitPower;
     public void Play()
     {
         isPlaying = true;
