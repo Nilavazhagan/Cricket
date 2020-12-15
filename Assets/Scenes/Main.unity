@@ -410,9 +410,10 @@ MonoBehaviour:
   maxX: 1
   movementSpeed: 10
   Ball: {fileID: 1322884771}
-  hitPower: 5
   loftToggle: {fileID: 730287603}
   batsmanInteractionPanel: {fileID: 464686643}
+  minMaxPower: {x: 2, y: 8}
+  minMaxSwipeLength: {x: 50, y: 200}
   listenToInput: 0
   helpHeader: Batting Mode
   helpContent: 'Use <b>Left</b> and <b>Right Arrows</b> to move batsman
